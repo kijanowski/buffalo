@@ -8,10 +8,20 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.sasl.RealmCallback;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class ModelControllerClientProvider {
 
-    public static ModelControllerClient createClient(final InetAddress host, final int port) {
+    public static ModelControllerClient createClient() {
+
+        InetAddress host;
+        String hostName = System.getProperty("jboss.bind.address.management", "localhost");
+
+        try {
+            host = InetAddress.getByName(hostName);
+        } catch (UnknownHostException uhe) {
+            throw new RuntimeException("Could not get address for " + hostName, uhe);
+        }
 
         final CallbackHandler callbackHandler = new CallbackHandler() {
 
@@ -27,6 +37,6 @@ public class ModelControllerClientProvider {
             }
         };
 
-        return ModelControllerClient.Factory.create(host, port, callbackHandler);
+        return ModelControllerClient.Factory.create(host, 9999, callbackHandler);
     }
 }
