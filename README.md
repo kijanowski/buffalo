@@ -16,4 +16,27 @@ web application instrumenting JBoss 7 to provide resource metrics to JBison
 More details on my blog http://kijanowski.blogspot.com/2013/02/collecting-monitoring-and-charting.html
 
 It is possible to collect one particular metric of all data sources, for example the number of available connections in the pool:
-http://127.0.0.1:8080/buffalo/rest/datasources/AvailableCount
+http://127.0.0.1:8080/buffalo/rest/datasources/pool/AvailableCount
+Available parameters are:
+* ActiveCount
+* AvailableCount
+* AverageBlockingTime
+* AverageCreationTime
+* CreatedCount
+* DestroyedCount
+* MaxCreationTime
+* MaxUsedCount
+* MaxWaitTime
+* TimedOut
+* TotalBlockingTime
+* TotalCreationTime
+
+Or the number of Prepared Statement Cache Access:
+http://127.0.0.1:8080/buffalo/rest/datasources/jdbc/PreparedStatementCacheAccessCount
+Available parameters are:
+* PreparedStatementCacheAccessCount
+* PreparedStatementCacheAddCount
+* PreparedStatementCacheCurrentSize
+* PreparedStatementCacheDeleteCount
+* PreparedStatementCacheHitCount
+* PreparedStatementCacheMissCount

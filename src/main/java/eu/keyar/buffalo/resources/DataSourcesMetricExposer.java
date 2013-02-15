@@ -24,29 +24,50 @@ public class DataSourcesMetricExposer {
 
     private Map<String, String> dataSourceMetric = new HashMap<String, String>();
 
+    private static final String POOL = "pool";
+    private static final String JDBC = "jdbc";
+
     @Inject
     OperationExecutor executor;
 
     @GET
-    @Path("/{metric}")
+    @Path("pool/{metric}")
     @Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
-    public String listDeployedDataSource(@PathParam("metric") String metricName) {
-        return listDataSourcesMetric(metricName);
+    public String listDeployedDataSourcePoolMetrics(@PathParam("metric") String metricName) {
+        return listDataSourcesPoolMetric(metricName, POOL);
     }
 
-    private String listDataSourcesMetric(String metricName) {
+    @GET
+    @Path("jdbc/{metric}")
+    @Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+    public String listDeployedDataSourceJDBCMetrics(@PathParam("metric") String metricName) {
+        return listDataSourcesJDBCMetric(metricName, JDBC);
+    }
+
+    private String listDataSourcesPoolMetric(String metricName, String type) {
 
         // read configured data sources
-        getDataSourceMetric(metricName, null);
+        getDataSourceMetric(metricName, null, type);
 
         // read deployed data sources
-        getExternalMetrics(metricName);
+        getExternalMetrics(metricName, type);
+
+        return new Gson().toJson(dataSourceMetric);
+    }
+
+    private String listDataSourcesJDBCMetric(String metricName, String type) {
+
+        // read configured data sources
+        getDataSourceMetric(metricName, null, type);
+
+        // read deployed data sources
+        getExternalMetrics(metricName, type);
 
         return new Gson().toJson(dataSourceMetric);
     }
 
 
-    private void getExternalMetrics(String metricName) {
+    private void getExternalMetrics(String metricName, String type) {
 
         final ModelNode op = new ModelNode();
         op.get(ClientConstants.OP).set("read-children-names");
@@ -56,12 +77,12 @@ public class DataSourcesMetricExposer {
 
         for (ModelNode deployment : returnVal.get("result").asList()) {
             if (deployment.asString().endsWith("-ds.xml")) {
-                getDataSourceMetric(metricName, deployment.asString());
+                getDataSourceMetric(metricName, deployment.asString(), type);
             }
         }
     }
 
-    private void getDataSourceMetric(String metricName, String descriptor) {
+    private void getDataSourceMetric(String metricName, String descriptor, String type) {
 
         final ModelNode op = new ModelNode();
         op.get("operation").set("read-resource");
@@ -82,7 +103,7 @@ public class DataSourcesMetricExposer {
         DataSources configuredDataSources = new Gson().fromJson(json, DataSources.class);
 
         for (String dsName : configuredDataSources.getDataSources().keySet()) {
-            dataSourceMetric.put(dsName, configuredDataSources.getDataSources().get(dsName).getStatistics().get("pool").get(metricName));
+            dataSourceMetric.put(dsName, configuredDataSources.getDataSources().get(dsName).getStatistics().get(type).get(metricName));
         }
     }
 
