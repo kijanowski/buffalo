@@ -64,3 +64,7 @@ where {type} is:
 
 The Thread usage metrics are available at:
 http://127.0.0.1:8080/buffalo/rest/jvm/threading
+
+The http/https connector metrics are available at:
+http://127.0.0.1:8080/buffalo/rest/connector/http
+http://127.0.0.1:8080/buffalo/rest/connector/https

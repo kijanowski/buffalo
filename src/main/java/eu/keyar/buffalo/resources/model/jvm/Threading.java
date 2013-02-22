@@ -2,6 +2,7 @@ package eu.keyar.buffalo.resources.model.jvm;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("unused")
 public class Threading {
 
     @SerializedName("thread-count")

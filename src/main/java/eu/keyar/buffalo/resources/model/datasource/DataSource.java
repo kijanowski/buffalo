@@ -7,16 +7,13 @@ import java.util.Map;
 /**
  * Data Source metrics
  */
+@SuppressWarnings("unused")
 public class DataSource {
 
     @SerializedName("jndi-name")
     private String jndiName;
 
     private Map<String, Map<String, String>> statistics;
-
-    public String getJndiName() {
-        return jndiName;
-    }
 
     public Map<String, Map<String, String>> getStatistics() {
         return statistics;
