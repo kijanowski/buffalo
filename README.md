@@ -40,3 +40,27 @@ Available parameters are:
 * PreparedStatementCacheDeleteCount
 * PreparedStatementCacheHitCount
 * PreparedStatementCacheMissCount
+
+The JVM memory stats are available at:
+http://127.0.0.1:8080/buffalo/rest/jvm/memory/heap-memory-usage
+http://127.0.0.1:8080/buffalo/rest/jvm/memory/non-heap-memory-usage
+
+The JVM memory pool stats are available at:
+http://127.0.0.1:8080/buffalo/rest/jvm/memory-pool/{name}/{type}
+
+where {name} is:
+* Par_Eden_Space
+* CMS_Old_Gen
+* Par_Survivor_Space
+* CMS_Perm_Gen
+* Code_Cache
+
+where {type} is:
+* collection-usage-threshold
+* collection-usage-threshold-count
+* usage
+* peak-usage
+* collection-usage
+
+The Thread usage metrics are available at:
+http://127.0.0.1:8080/buffalo/rest/jvm/threading
