@@ -68,3 +68,7 @@ http://127.0.0.1:8080/buffalo/rest/jvm/threading
 The http/https connector metrics are available at:
 http://127.0.0.1:8080/buffalo/rest/connector/http
 http://127.0.0.1:8080/buffalo/rest/connector/https
+
+the jms metrics are available at:
+http://127.0.0.1:8080/buffalo/rest/messaging/default/jms-queue/testQueue?include-runtime=true
+http://127.0.0.1:8080/buffalo/rest/messaging/default/jms-topic/testTopic?include-runtime=true
